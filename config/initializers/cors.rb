@@ -14,3 +14,14 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
+
+# CORS disabled for development on localhost
+Rails.application.config.middleware.use Rack::Cors do
+  allow do
+    origins '*'
+    resource '*',
+             headers: :any,
+             expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+             methods: %i[get post options delete put]
+  end
+end

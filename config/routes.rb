@@ -5,7 +5,11 @@ Rails.application.routes.draw do
 
   scope module: 'api' do
     namespace :v1 do
-      resources :users, only: %i[index show]
+      resources :users, only: %i[index show] do
+        collection do
+          get 'current'
+        end
+      end
     end
   end
 

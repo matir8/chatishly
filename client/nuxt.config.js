@@ -36,20 +36,63 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify'],
+  plugins: ['@/plugins/axios.js', '@/plugins/vuetify'],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/toast',
+    'nuxt-validate'
   ],
   /*
   ** Axios module configuration
   */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'http://localhost:3000'
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/auth/sign_in',
+            method: 'post',
+            propertyName: 'auth'
+          },
+          logout: false,
+          user: {
+            url: `/v1/users/current`,
+            method: 'get',
+            propertyName: 'data'
+          }
+        }
+      }
+    },
+    redirect: {
+      login: '/auth/login',
+      logout: '/',
+      user: '/profile',
+      callback: '/'
+    }
+  },
+
+  router: {
+    middleware: ['auth']
+  },
+
+  toast: {
+    position: 'top-right',
+    duration: 2000
+  },
+
+  server: {
+    port: 8000, // default: 3000
+    host: 'localhost'
   },
 
   /*

@@ -64,7 +64,10 @@ module.exports = {
             method: 'post',
             propertyName: 'auth'
           },
-          logout: false,
+          logout: {
+            url: '/auth/sign_out',
+            method: 'delete'
+          },
           user: {
             url: `/v1/users/current`,
             method: 'get',

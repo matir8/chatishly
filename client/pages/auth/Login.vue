@@ -28,6 +28,7 @@
             required
           />
           <v-btn @click="local">submit</v-btn>
+          <v-btn href="http://localhost:3000/auth/facebook">Facebook</v-btn>
         </form>
       </v-flex>
     </v-layout>

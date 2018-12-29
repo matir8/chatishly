@@ -10,5 +10,22 @@ module Overrides
       ActionController::Parameters.permit_all_parameters = orig_val
       user
     end
+
+    def omniauth_success
+      get_resource_from_auth_hash
+      set_token_on_resource
+      create_auth_params
+
+      if confirmable_enabled?
+        # don't send confirmation email!!!
+        @resource.skip_confirmation!
+      end
+
+      sign_in(:user, @resource, store: false, bypass: false)
+
+      @resource.save!
+
+      redirect_to "#{ENV['callback_url']}?#{@auth_params.to_query}"
+    end
   end
 end

@@ -3,17 +3,17 @@
 </template>
 
 <script>
+import AuthService from '@/services/authService'
+
 export default {
   auth: false,
   mounted() {
     if (this.$route.query) {
-      localStorage.setItem('auth.access-token', this.$route.query['auth_token'])
-      localStorage.setItem('auth.uid', this.$route.query['uid'])
-      localStorage.setItem('auth.client', this.$route.query['client_id'])
+      AuthService.setCredentials(this.$route.query)
+      this.$axios.get('/v1/users/current').then(res => {
+        this.$auth.setUser(res.data.data)
+      })
     }
-    this.$axios.get('/v1/users/current').then(res => {
-      this.$auth.setUser(res.data.data)
-    })
     this.$router.push('/')
   }
 }

@@ -1,3 +1,5 @@
+import AuthService from '@/services/authService'
+
 export default function({ $axios }) {
   $axios.onRequest(req => {
     req.headers['Content-Type'] = 'application/json'
@@ -15,9 +17,7 @@ export default function({ $axios }) {
       config.request.responseURL == `${$axios.defaults.baseURL}/auth/sign_in` &&
       config.request.status == 200
     ) {
-      localStorage.setItem('auth.access-token', config.headers['access-token'])
-      localStorage.setItem('auth.uid', config.headers['uid'])
-      localStorage.setItem('auth.client', config.headers['client'])
+      AuthService.setCredentials(config.headers)
     }
   })
 }

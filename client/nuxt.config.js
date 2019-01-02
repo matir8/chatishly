@@ -46,6 +46,7 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     '@nuxtjs/toast',
+    ['@nuxtjs/ngrok', { addr: '8000' }],
     'nuxt-validate'
   ],
   /*

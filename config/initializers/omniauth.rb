@@ -5,7 +5,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
            client_options: {
              site: 'https://graph.facebook.com/v3.0',
              authorize_url: 'https://www.facebook.com/v3.0/dialog/oauth',
-             display: 'popup'
+             display: 'popup',
+             scope: 'manage_pages,pages_show_list,public_profile,pages_messaging'
            },
            origin_param: false
 end

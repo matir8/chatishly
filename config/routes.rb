@@ -13,5 +13,7 @@ Rails.application.routes.draw do
     end
   end
 
+  mount Facebook::Messenger::Server, at: 'bot'
+
   get '/auth/:provider/callback', to: 'sessions#create'
 end

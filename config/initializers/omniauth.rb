@@ -3,10 +3,9 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   # provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
   provider :facebook, ENV['facebook_app_id'], ENV['facebook_app_secret'],
            client_options: {
-             site: 'https://graph.facebook.com/v3.0',
-             authorize_url: 'https://www.facebook.com/v3.0/dialog/oauth',
-             display: 'popup',
-             scope: 'manage_pages,pages_show_list,public_profile,pages_messaging'
+             site: ENV['facebook_graph_api'],
+             authorize_url: 'https://www.facebook.com/v3.2/dialog/oauth'
            },
-           origin_param: false
+           scope: 'manage_pages,pages_show_list,public_profile,pages_messaging',
+           display: 'touch'
 end

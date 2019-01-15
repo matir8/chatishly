@@ -34,7 +34,16 @@ gem 'omniauth-facebook'
 gem 'active_model_serializers'
 
 # Environmental variables
-gem "figaro"
+gem 'figaro'
+
+# Library for making HTTP requests
+gem 'httparty'
+
+# Facebook Messenger API client
+gem 'facebook-messenger', '~> 1.1', '>= 1.1.2'
+
+# Facebook API client
+gem 'koala'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

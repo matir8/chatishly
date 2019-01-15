@@ -23,6 +23,9 @@ module Overrides
 
       sign_in(:user, @resource, store: false, bypass: false)
 
+      provider = auth_hash.provider
+      token = auth_hash.credentials.token
+      @resource.social_access_tokens = Hash[provider, token]
       @resource.save!
 
       redirect_to "#{ENV['callback_url']}?#{@auth_params.to_query}"

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[index show] do
         collection do
           get 'current'
+          get 'facebook_pages'
         end
       end
     end

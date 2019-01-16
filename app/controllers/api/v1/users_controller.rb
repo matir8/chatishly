@@ -21,7 +21,15 @@ module Api::V1
           status: 400
         }
       else
-        render json: current_user.facebook_pages
+        render json: serialized_pages
+      end
+    end
+
+    private
+
+    def serialized_pages
+      current_user.facebook_pages.map do |page|
+        page.slice('name', 'id')
       end
     end
   end

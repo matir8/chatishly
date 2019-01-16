@@ -8,8 +8,9 @@ class Bot < ApplicationRecord
   has_many :flows
 
   validates :verify_token, presence: true
-  validates :access_token, presence: true
-  validates :page_id, presence: true
+  validates :access_token, presence: true, uniqueness: true
+  validates :page_id, presence: true, uniqueness: true
+  validates :name, presence: true
 
   def subscribe_bot
     facebook_page = user.facebook_pages.find { |page| page['id'] == page_id.to_s }

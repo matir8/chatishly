@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190112234749) do
+ActiveRecord::Schema.define(version: 20190116005152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20190112234749) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "page_id"
+    t.string "name"
     t.index ["user_id"], name: "index_bots_on_user_id"
   end
 
@@ -30,6 +31,19 @@ ActiveRecord::Schema.define(version: 20190112234749) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bot_id"], name: "index_flows_on_bot_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "access_token", null: false
+    t.string "category", null: false
+    t.string "name", null: false
+    t.string "facebook_id", null: false
+    t.text "category_list", default: [], array: true
+    t.text "tasks", default: [], array: true
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_pages_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

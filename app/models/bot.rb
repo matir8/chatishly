@@ -21,4 +21,8 @@ class Bot < ApplicationRecord
     HTTParty.post("#{ENV['facebook_graph_api']}/#{page_id.to_i}/subscribed_apps/",
                   query: query_params)
   end
+
+  def start_conversation
+    flows.first.start
+  end
 end

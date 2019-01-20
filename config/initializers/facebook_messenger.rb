@@ -43,5 +43,5 @@ Facebook::Messenger.configure do |config|
 end
 
 Facebook::Messenger::Bot.on :message do |message|
-  message.reply(text: "Hello, #{message.recipient['id']}")
+  Bot.find_by(page_id: message.recipient['id']).start_conversation
 end

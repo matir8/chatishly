@@ -17,3 +17,14 @@
 
 # Ignore application configuration
 /config/application.yml
+
+# SSL
+server.crt
+server.csr
+server.key
+config.ssl
+localhost.matir8.key
+
+# ERD Files
+.erdconfig
+erd.pdf

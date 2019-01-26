@@ -22,7 +22,7 @@ class Bot < ApplicationRecord
                   query: query_params)
   end
 
-  def start_conversation
-    flows.first.start
+  def start_conversation(message)
+    flows.first.start(message)
   end
 end

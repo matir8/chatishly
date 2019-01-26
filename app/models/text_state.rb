@@ -3,10 +3,7 @@ class TextState < ApplicationRecord
 
   validates :text, presence: true
 
-  def handle
-    answer do |message|
-      message.reply(text: text)
-      next
-    end
+  def handle(session)
+    answer(session, text)
   end
 end

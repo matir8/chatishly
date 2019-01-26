@@ -3,9 +3,7 @@ class QuestionState < ApplicationRecord
 
   validates :question, presence: true
 
-  def handle
-    answer do |message|
-      message.reply(text: question)
-    end
+  def handle(session)
+    answer(session, question)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190120004240) do
+ActiveRecord::Schema.define(version: 20190124015333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,12 +30,10 @@ ActiveRecord::Schema.define(version: 20190120004240) do
     t.string "sender_id"
     t.bigint "flow_id"
     t.bigint "current_state_id"
-    t.bigint "next_state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["current_state_id"], name: "index_flow_sessions_on_current_state_id"
     t.index ["flow_id"], name: "index_flow_sessions_on_flow_id"
-    t.index ["next_state_id"], name: "index_flow_sessions_on_next_state_id"
   end
 
   create_table "flows", force: :cascade do |t|
@@ -43,6 +41,7 @@ ActiveRecord::Schema.define(version: 20190120004240) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.bigint "default_state_id"
     t.index ["bot_id"], name: "index_flows_on_bot_id"
   end
 
@@ -117,7 +116,6 @@ ActiveRecord::Schema.define(version: 20190120004240) do
   add_foreign_key "bots", "users"
   add_foreign_key "flow_sessions", "flows"
   add_foreign_key "flow_sessions", "states", column: "current_state_id"
-  add_foreign_key "flow_sessions", "states", column: "next_state_id"
   add_foreign_key "flows", "bots"
   add_foreign_key "states", "flows"
 end

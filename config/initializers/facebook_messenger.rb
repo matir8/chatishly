@@ -43,5 +43,7 @@ Facebook::Messenger.configure do |config|
 end
 
 Facebook::Messenger::Bot.on :message do |message|
-  Bot.find_by(page_id: message.recipient['id']).start_conversation
+  Chatishly::Application::Bot
+    .find_by(page_id: message.recipient['id'])
+    .start_conversation(message)
 end

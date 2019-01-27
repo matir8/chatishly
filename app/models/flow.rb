@@ -15,10 +15,14 @@ class Flow < ApplicationRecord
     ReplyWorker.perform_async(session.id)
   end
 
+  def trigger_payload
+    "TRIGGER_#{name.delete(' ').upcase}_FLOW_PAYLOAD"
+  end
+
   private
 
   def flow_session(message)
-    session = flow_sessions.where(sender_id: message.sender['id']).first
+    session = flow_sessions.find_by(sender_id: message.sender['id'])
 
     if session.nil?
       session = FlowSession.create!(

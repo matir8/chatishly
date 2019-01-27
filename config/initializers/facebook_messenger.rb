@@ -42,8 +42,18 @@ Facebook::Messenger.configure do |config|
   config.provider = BotProvider.new
 end
 
+Facebook::Messenger::Bot.on :postback do |postback|
+  init(postback)
+end
+
 Facebook::Messenger::Bot.on :message do |message|
+  message.mark_seen
+  message.typing_on
+  init(message)
+end
+
+def init(reply)
   Chatishly::Application::Bot
-    .find_by(page_id: message.recipient['id'])
-    .start_conversation(message)
+    .find_by(page_id: reply.recipient['id'])
+    .start_conversation(reply)
 end

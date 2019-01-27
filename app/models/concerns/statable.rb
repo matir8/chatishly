@@ -7,27 +7,33 @@ module Statable
 
     validates :name, presence: true
 
-    def answer(session, message)
+    def answer(session, text)
+      message = demo_message(text)
       send_message(session, message)
-
-      Facebook::Messenger::Bot.on :message do |m|
-        m.mark_seen
-        m.typing_on
-
-        yield m if block_given?
-        m.typing_off
-      end
     end
 
     def send_message(session, message)
       Facebook::Messenger::Bot
         .deliver({
                    recipient: { id: session.sender_id },
-                   message: {
-                     text: message
-                   },
+                   message: message,
                    message_type: Facebook::Messenger::Bot::MessagingType::UPDATE
                  }, access_token: session.flow.bot.access_token)
+    end
+
+    private
+
+    def demo_message(message)
+      {
+        text: message,
+        quick_replies: [
+          {
+            content_type: 'text',
+            title: 'Sample flow',
+            payload: 'TRIGGER_SAMPLE_FLOW_PAYLOAD'
+          }
+        ]
+      }
     end
   end
 end

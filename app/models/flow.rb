@@ -4,34 +4,20 @@ class Flow < ApplicationRecord
   has_many :flow_sessions
 
   has_many :states
-  belongs_to :default_state, class_name: 'TextState', foreign_key: 'default_state_id'
   has_many :text_states, through: :states, source: :statable, source_type: 'TextState', class_name: 'TextState'
   has_many :question_states, through: :states, source: :statable, source_type: 'QuestionState', class_name: 'QuestionState'
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
-  def start(message)
-    session = flow_session(message)
+  def start(session)
     ReplyWorker.perform_async(session.id)
   end
 
   def trigger_payload
-    "TRIGGER_#{name.delete(' ').upcase}_FLOW_PAYLOAD"
+    "TRIGGER_FLOW_#{id}_PAYLOAD"
   end
 
-  private
-
-  def flow_session(message)
-    session = flow_sessions.find_by(sender_id: message.sender['id'])
-
-    if session.nil?
-      session = FlowSession.create!(
-        sender_id: message.sender['id'],
-        flow_id: id,
-        current_state_id: states.first.id
-      )
-    end
-
-    session
+  def list_states_triggers
+    states.includes(:statable).collect { |state| state.statable.trigger_payload }
   end
 end

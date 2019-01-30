@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190126181312) do
+ActiveRecord::Schema.define(version: 20190129135505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20190126181312) do
     t.datetime "updated_at", null: false
     t.string "page_id"
     t.string "name"
+    t.bigint "default_flow_id"
     t.index ["user_id"], name: "index_bots_on_user_id"
   end
 
@@ -41,7 +42,6 @@ ActiveRecord::Schema.define(version: 20190126181312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "default_state_id"
     t.string "menu_action_title"
     t.index ["bot_id"], name: "index_flows_on_bot_id"
   end
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 20190126181312) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "bots", "flows", column: "default_flow_id"
   add_foreign_key "bots", "users"
   add_foreign_key "flow_sessions", "flows"
   add_foreign_key "flow_sessions", "states", column: "current_state_id"

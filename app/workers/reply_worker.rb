@@ -3,17 +3,19 @@ class ReplyWorker
 
   def perform(session_id)
     @session = FlowSession.find(session_id)
-    @flow = Flow.find(@session.flow_id)
+    @flow = @session.current_state.flow
 
     @session.current_state.statable.handle(@session)
 
-    next_index = if next_state?
-                   @flow.states.index(@session.current_state) + 1
-                 else
-                   0
-                 end
-
-    @session.update(current_state: @flow.states.to_a.at(next_index))
+    if next_state?
+      next_index = @flow.states.index(@session.current_state) + 1
+      @session.update(current_state: @flow.states.to_a.at(next_index))
+    else
+      @session.update(
+        flow: @flow.bot.default_flow,
+        current_state: @flow.bot.default_flow.states.first
+      )
+    end
   end
 
   private

@@ -21,6 +21,10 @@ module Statable
                  }, access_token: session.flow.bot.access_token)
     end
 
+    def trigger_payload
+      "TRIGGER_STATE_#{id}_PAYLOAD"
+    end
+
     private
 
     def demo_message(message)
@@ -29,8 +33,18 @@ module Statable
         quick_replies: [
           {
             content_type: 'text',
-            title: 'Sample flow',
-            payload: 'TRIGGER_SAMPLE_FLOW_PAYLOAD'
+            title: 'Hello',
+            payload: 'TRIGGER_STATE_2_PAYLOAD'
+          },
+          {
+            content_type: 'text',
+            title: 'How are you?',
+            payload: 'TRIGGER_STATE_1_PAYLOAD'
+          },
+          {
+            content_type: 'text',
+            title: 'Queen',
+            payload: 'TRIGGER_STATE_5_PAYLOAD'
           }
         ]
       }

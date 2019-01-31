@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190129135505) do
+ActiveRecord::Schema.define(version: 20190131091930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,17 @@ ActiveRecord::Schema.define(version: 20190129135505) do
     t.text "question"
   end
 
+  create_table "quick_replies", force: :cascade do |t|
+    t.string "content_type"
+    t.string "title"
+    t.string "payload"
+    t.string "image_url"
+    t.bigint "state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["state_id"], name: "index_quick_replies_on_state_id"
+  end
+
   create_table "states", force: :cascade do |t|
     t.bigint "flow_id"
     t.string "statable_type"
@@ -119,5 +130,6 @@ ActiveRecord::Schema.define(version: 20190129135505) do
   add_foreign_key "flow_sessions", "flows"
   add_foreign_key "flow_sessions", "states", column: "current_state_id"
   add_foreign_key "flows", "bots"
+  add_foreign_key "quick_replies", "states"
   add_foreign_key "states", "flows"
 end

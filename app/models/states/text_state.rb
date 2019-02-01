@@ -7,7 +7,7 @@ class TextState < ApplicationRecord
     message = if state.quick_replies.any?
                 {
                   text: text,
-                  quick_replies: state.quick_replies.select(&:attributes)
+                  quick_replies: quick_replies
                 }
               else
                 { text: text }

@@ -25,6 +25,12 @@ module Statable
       "TRIGGER_STATE_#{id}_PAYLOAD"
     end
 
+    def quick_replies
+      state.quick_replies.map do |reply|
+        reply.attributes.slice('content_type', 'title', 'payload', 'image_url')
+      end
+    end
+
     private
 
     def demo_message(message)

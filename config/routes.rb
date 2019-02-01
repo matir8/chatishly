@@ -11,9 +11,16 @@ Rails.application.routes.draw do
           get 'facebook_pages'
 
           resources :bots do
+            resources :flows do
+              member do
+                get 'trigger_payload'
+                get 'list_states_triggers'
+
+              end
+            end
+
             put 'subscribe'
           end
-
         end
       end
     end

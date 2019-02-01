@@ -100,9 +100,7 @@ class Bot < ApplicationRecord
   end
 
   def default_flow_set?
-    if default_flow.nil?
-      raise 'Default flow is not set'
-    end
+    raise 'Default flow is not set' if default_flow.nil?
   end
 
   # def demo_menu

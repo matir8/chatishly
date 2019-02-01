@@ -7,8 +7,8 @@ module Statable
 
     validates :name, presence: true
 
-    def answer(session, text)
-      message = demo_message(text)
+    def answer(session, message)
+      # message = demo_message(text)
       send_message(session, message)
     end
 

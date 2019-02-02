@@ -43,12 +43,11 @@ class Bot < ApplicationRecord
   def start_conversation(reply)
     default_flow_set?
 
-    session = FlowSession.find_by(sender_id: reply.sender['id'])
+    session = BotSession.find_by(sender_id: reply.sender['id'])
 
     if session.nil?
-      session = FlowSession.create!(
+      session = BotSession.create!(
         sender_id: reply.sender['id'],
-        flow_id: default_flow_id,
         current_state_id: default_flow.states.first.id
       )
 
@@ -79,7 +78,6 @@ class Bot < ApplicationRecord
       flow = state.flow
 
       session.update(
-        flow_id: flow.id,
         current_state_id: state.id
       )
     else
@@ -102,25 +100,4 @@ class Bot < ApplicationRecord
   def default_flow_set?
     raise 'Default flow is not set' if default_flow.nil?
   end
-
-  # def demo_menu
-  #   [
-  #     {
-  #       locale: 'default',
-  #       composer_input_disabled: false,
-  #       call_to_actions: [
-  #         {
-  #           title: 'Sample Flow',
-  #           type: 'postback',
-  #           payload: 'TRIGGER_FLOW_1_PAYLOAD'
-  #         },
-  #         {
-  #           title: 'Demo Flow',
-  #           type: 'postback',
-  #           payload: 'TRIGGER_FLOW_2_PAYLOAD'
-  #         }
-  #       ]
-  #     }
-  #   ]
-  # end
 end

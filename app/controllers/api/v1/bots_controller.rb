@@ -1,6 +1,6 @@
 module Api::V1
   class BotsController < ApiController
-    before_action :set_bot, only: %i[show update destroy subscribe]
+    before_action :set_bot, only: %i[show update destroy subscribe list_flows_triggers configure_persistent_menu bot_sessions recipient_info]
 
     def index
       render json: current_user.bots
@@ -47,10 +47,27 @@ module Api::V1
       render json: @bot.subscribe_bot
     end
 
+    def list_flows_triggers
+      render json: { flow_triggers: @bot.list_flows_triggers }
+    end
+
+    def configure_persistent_menu
+      @bot.configure_persistent_menu(bot_params[:menu])
+      render status: 200
+    end
+
+    def bot_sessions
+      render json: BotSession.includes(:bot).where(bots: { id: @bot.id })
+    end
+
+    def recipient_info
+      render json: @bot.recipient_info(bot_params[:sender_id])
+    end
+
     private
 
     def bot_params
-      params.permit(:name, :id, :bot_id, :page_id)
+      params.permit(:name, :id, :bot_id, :page_id, :menu, :sender_id)
     end
 
     def set_bot

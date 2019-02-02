@@ -24,6 +24,16 @@ class Bot < ApplicationRecord
                   query: query_params)
   end
 
+  def recipient_info(id)
+    facebook_page = user.facebook_pages.find { |page| page['id'] == page_id.to_s }
+    query_params = {
+      access_token: facebook_page['access_token'],
+      subscribed_fields: 'name,email'
+    }
+
+    HTTParty.get("#{ENV['facebook_graph_api']}/#{id}", query: query_params)
+  end
+
   def list_flows_triggers
     flows.collect(&:trigger_payload)
   end

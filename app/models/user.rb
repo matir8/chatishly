@@ -16,15 +16,27 @@ class User < ActiveRecord::Base
     @new_pages = @graph.get_connections('me', 'accounts')
 
     @new_pages.each do |new_page|
-      Page.where(facebook_id: new_page['id']).first_or_create! do |page|
-        page.user_id = id
-        page.access_token = new_page['access_token']
-        page.name = new_page['name']
-        page.facebook_id = new_page['id']
-        page.category = new_page['category']
-        page.category_list = new_page['category_list']
-        page.tasks = new_page['tasks']
+      page = Page.find_by(facebook_id: new_page['id'])
+
+      if page.nil?
+        Page.create(page_params(new_page))
+      else
+        Page.update(page_params(new_page))
       end
     end
+  end
+
+  private
+
+  def page_params(new_page)
+    {
+      user_id: id,
+      access_token: new_page['access_token'],
+      name: new_page['name'],
+      facebook_id: new_page['id'],
+      category: new_page['category'],
+      category_list: new_page['category_list'],
+      tasks: new_page['tasks']
+    }
   end
 end

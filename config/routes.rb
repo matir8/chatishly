@@ -12,10 +12,11 @@ Rails.application.routes.draw do
 
           resources :bots do
             get 'list_flows_triggers'
-            put 'subscribe'
-            put 'configure_persistent_menu'
             get 'bot_sessions'
             get 'recipient_info'
+
+            put 'subscribe'
+            put 'configure_persistent_menu'
 
             resources :flows do
               member do
@@ -23,7 +24,9 @@ Rails.application.routes.draw do
                 get 'list_states_triggers'
               end
 
-              resources :states
+              resources :states do
+                resources :quick_replies
+              end
             end
           end
         end

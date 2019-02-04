@@ -1,6 +1,6 @@
 module Api::V1
   class BotsController < ApiController
-    before_action :set_bot, only: %i[show update destroy subscribe list_flows_triggers configure_persistent_menu bot_sessions recipient_info]
+    before_action :set_bot
 
     def index
       render json: current_user.bots
@@ -45,6 +45,10 @@ module Api::V1
 
     def subscribe
       render json: @bot.subscribe_bot
+    end
+
+    def default_flow
+      render json: @bot.default_flow
     end
 
     def list_flows_triggers

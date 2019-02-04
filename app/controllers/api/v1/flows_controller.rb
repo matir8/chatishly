@@ -1,6 +1,6 @@
 module Api::V1
   class FlowsController < ApiController
-    before_action :set_bot
+    before_action :set_bot, only: :index
     before_action :set_flow, only: %i[show update destroy trigger_payload list_states_triggers]
 
     def index

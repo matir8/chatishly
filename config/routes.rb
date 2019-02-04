@@ -21,8 +21,9 @@ Rails.application.routes.draw do
               member do
                 get 'trigger_payload'
                 get 'list_states_triggers'
-
               end
+
+              resources :states
             end
           end
         end

@@ -46,7 +46,6 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     '@nuxtjs/toast',
-    ['@nuxtjs/ngrok', { addr: '8000' }],
     'nuxt-validate'
   ],
   /*
@@ -70,7 +69,7 @@ module.exports = {
             method: 'delete'
           },
           user: {
-            url: `/v1/users/current`,
+            url: '/v1/user/current',
             method: 'get',
             propertyName: 'data'
           }
@@ -80,7 +79,7 @@ module.exports = {
     redirect: {
       login: '/auth/login',
       logout: '/',
-      user: '/profile',
+      user: '/v1/user/current',
       callback: '/'
     }
   },

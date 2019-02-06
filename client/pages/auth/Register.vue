@@ -46,7 +46,7 @@
             required
           />
           <v-btn @click="register">Register</v-btn>
-          <v-btn href="http://localhost:3000/auth/facebook">Sign up with Facebook</v-btn>
+          <v-btn :href="$axios.defaults.baseURL + '/auth/facebook'">Sign up with Facebook</v-btn>
         </form>
       </v-flex>
     </v-layout>

@@ -10,7 +10,7 @@ export default {
   mounted() {
     if (this.$route.query) {
       AuthService.setCredentials(this.$route.query)
-      this.$axios.get('/v1/users/current').then(res => {
+      this.$axios.get('/v1/user/current').then(res => {
         this.$auth.setUser(res.data.data)
       })
     }

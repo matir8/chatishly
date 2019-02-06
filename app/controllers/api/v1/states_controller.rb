@@ -1,6 +1,6 @@
 module Api::V1
   class StatesController < ApplicationController
-    before_action :set_flow, only: %i[index show create update destroy]
+    before_action :set_flow
     before_action :set_state, only: %i[show update destroy]
     before_action :set_statable, only: %i[create update]
 
@@ -40,7 +40,8 @@ module Api::V1
     private
 
     def set_flow
-      @flow = Flow.find(state_params[:flow_id])
+      @bot = current_user.bots.find(bot_id)
+      @flow = @bot.flows.find(state_params[:flow_id])
     end
 
     def set_state
@@ -57,6 +58,10 @@ module Api::V1
       type.classify.constantize
     rescue NameError
       raise ActionController::BadRequest.new, 'Invalid parameters'
+    end
+
+    def bot_id
+      params.permit(:bot_id)[:bot_id]
     end
 
     def state_params

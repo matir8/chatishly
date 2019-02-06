@@ -1,6 +1,6 @@
 module Api::V1
   class QuickRepliesController < ApplicationController
-    before_action :set_state, only: :index
+    before_action :set_state
     before_action :set_quick_reply, only: %i[show update destroy]
 
     def index
@@ -35,12 +35,22 @@ module Api::V1
 
     private
 
+    def bot_id
+      params.permit(:bot_id)[:bot_id]
+    end
+
+    def flow_id
+      params.permit(:flow_id)[:flow_id]
+    end
+
     def set_state
-      @state = State.find(quick_reply_params[:state_id])
+      @bot = current_user.bots.find(bot_id)
+      @flow = @bot.flows.find(flow_id)
+      @state = @flow.states.find(quick_reply_params[:state_id])
     end
 
     def set_quick_reply
-      @quick_reply = QuickReply.find(quick_reply_params[:id])
+      @quick_reply = @state.quick_replies.find(quick_reply_params[:id])
     end
 
     def quick_reply_params

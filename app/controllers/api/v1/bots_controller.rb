@@ -1,6 +1,6 @@
 module Api::V1
   class BotsController < ApiController
-    before_action :set_bot
+    before_action :set_bot, except: %i[index create]
 
     def index
       render json: current_user.bots
@@ -76,7 +76,7 @@ module Api::V1
 
     def set_bot
       id = bot_params[:id] || bot_params[:bot_id]
-      @bot = Bot.find(id)
+      @bot = current_user.bots.find(id)
     end
 
     def access_token

@@ -1,7 +1,7 @@
 module Api::V1
   class FlowsController < ApiController
-    before_action :set_bot, only: :index
-    before_action :set_flow, only: %i[show update destroy trigger_payload list_states_triggers]
+    before_action :set_bot
+    before_action :set_flow, except: %i[index create]
 
     def index
       render json: @bot.flows
@@ -44,11 +44,11 @@ module Api::V1
     private
 
     def set_bot
-      @bot = Bot.find(flow_params[:bot_id])
+      @bot = current_user.bots.find(flow_params[:bot_id])
     end
 
     def set_flow
-      @flow = Flow.find(flow_params[:id])
+      @flow = @bot.flows.find(flow_params[:id])
     end
 
     def flow_params

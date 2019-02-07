@@ -11,20 +11,13 @@ Rails.application.routes.draw do
           get 'facebook_pages'
 
           resources :bots do
-            get 'list_flows_triggers'
             get 'bot_sessions'
             get 'recipient_info'
-            get 'default_flow'
 
             put 'subscribe'
             put 'configure_persistent_menu'
 
             resources :flows do
-              member do
-                get 'trigger_payload'
-                get 'list_states_triggers'
-              end
-
               resources :states do
                 resources :quick_replies
               end

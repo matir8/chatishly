@@ -17,7 +17,7 @@ module Api::V1
       if @flow.save
         render json: @flow
       else
-        render json: { error: @flow.errors, status: 422 }
+        render json: { error: @flow.errors }, status: 422
       end
     end
 
@@ -25,7 +25,7 @@ module Api::V1
       if @flow.update_attributes(flow_params)
         render json: @flow
       else
-        render json: { error: @flow.errors, status: 422 }
+        render json: { error: @flow.errors }, status: 422
       end
     end
 

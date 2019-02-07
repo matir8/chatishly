@@ -1,5 +1,5 @@
 module Api::V1
-  class QuickRepliesController < ApplicationController
+  class QuickRepliesController < ApiController
     before_action :set_state
     before_action :set_quick_reply, only: %i[show update destroy]
 
@@ -17,7 +17,7 @@ module Api::V1
       if @quick_reply.save
         render json: @quick_reply
       else
-        render json: { error: @quick_reply.errors, status: 422 }
+        render json: { error: @quick_reply.errors }, status: 422
       end
     end
 
@@ -25,7 +25,7 @@ module Api::V1
       if @quick_reply.update_attributes(quick_reply_params)
         render json: @quick_reply
       else
-        render json: { error: @quick_reply.errors, status: 422 }
+        render json: { error: @quick_reply.errors }, status: 422
       end
     end
 

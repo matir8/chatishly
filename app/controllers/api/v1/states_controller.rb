@@ -1,5 +1,5 @@
 module Api::V1
-  class StatesController < ApplicationController
+  class StatesController < ApiController
     before_action :set_flow
     before_action :set_state, only: %i[show update destroy]
     before_action :set_statable, only: %i[create update]
@@ -19,7 +19,7 @@ module Api::V1
         @flow.states.create!(statable: @statable)
         render json: @statable
       else
-        render json: { error: @statable.errors, status: 422 }
+        render json: { error: @statable.errors }, status: 422
       end
     end
 
@@ -29,7 +29,7 @@ module Api::V1
       if @statable.update_attributes(@statable_params)
         render json: @statable
       else
-        render json: { error: @statable.errors, status: 422 }
+        render json: { error: @statable.errors }, status: 422
       end
     end
 

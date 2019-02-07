@@ -22,7 +22,7 @@ module Api::V1
       if @bot.save
         render json: @bot
       else
-        render json: { error: @bot.errors, status: 422 }
+        render json: { error: @bot.errors }, status: 422
       end
     end
 
@@ -35,7 +35,7 @@ module Api::V1
       if @bot.save
         render json: @bot
       else
-        render json: { error: @bot.errors, status: 422 }
+        render json: { error: @bot.errors }, status: 422
       end
     end
 

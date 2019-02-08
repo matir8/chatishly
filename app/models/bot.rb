@@ -13,6 +13,8 @@ class Bot < ApplicationRecord
   validates :page_id, presence: true, uniqueness: true
   validates :name, presence: true
 
+  after_create :subscribe_bot
+
   def subscribe_bot
     facebook_page = user.facebook_pages.find { |page| page['id'] == page_id.to_s }
     query_params = {
@@ -28,7 +30,7 @@ class Bot < ApplicationRecord
     facebook_page = user.facebook_pages.find { |page| page['id'] == page_id.to_s }
     query_params = {
       access_token: facebook_page['access_token'],
-      subscribed_fields: 'name,email'
+      subscribed_fields: 'name,profile_pic'
     }
 
     HTTParty.get("#{ENV['facebook_graph_api']}/#{id}", query: query_params)
@@ -56,18 +58,20 @@ class Bot < ApplicationRecord
     session = BotSession.find_by(sender_id: reply.sender['id'])
 
     if session.nil?
+      recipient = recipient_info(reply.sender['id'])
+
       session = BotSession.create!(
-        sender_id: reply.sender['id'],
-        current_state_id: default_flow.states.first.id
+        current_state_id: default_flow.states.first.id,
+        sender_id: recipient['id'],
+        sender_name: "#{recipient['first_name']} #{recipient['last_name']}",
+        sender_profile_pic: recipient['profile_pic']
       )
 
       default_flow.start(session)
+    elsif message?(reply)
+      session.flow.start(session)
     else
-      if message?(reply)
-        session.flow.start(session)
-      else
-        handle_trigger(session, payload(reply))
-      end
+      handle_trigger(session, payload(reply))
     end
   end
 

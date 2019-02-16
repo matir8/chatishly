@@ -46,7 +46,7 @@ class Bot < ApplicationRecord
     Facebook::Messenger::Profile
       .set({
              get_started: {
-               payload: default_flow.trigger_payload
+               payload: default_flow.trigger_payload[:payload]
              },
              persistent_menu: menu
            }, access_token: access_token)
@@ -78,7 +78,7 @@ class Bot < ApplicationRecord
   private
 
   def handle_trigger(session, trigger)
-    flow = flows.select { |curr_flow| curr_flow.trigger_payload == trigger }.first
+    flow = flows.select { |curr_flow| curr_flow.trigger_payload[:payload] == trigger }.first
 
     if flow.nil?
       flows.includes(:states).each do |curr_flow|

@@ -9,10 +9,20 @@ class Flow < ApplicationRecord
   end
 
   def trigger_payload
-    "TRIGGER_FLOW_#{id}_PAYLOAD"
+    {
+      name: name,
+      type: 'Flow',
+      payload: "TRIGGER_FLOW_#{id}_PAYLOAD"
+    }
   end
 
   def list_states_triggers
-    states.includes(:statable).collect { |state| state.statable.trigger_payload }
+    states.includes(:statable).collect do |state|
+      {
+        name: state.statable.name,
+        type: 'State',
+        payload: state.statable.trigger_payload
+      }
+    end
   end
 end

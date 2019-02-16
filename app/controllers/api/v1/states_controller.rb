@@ -17,7 +17,7 @@ module Api::V1
 
       if @statable.save
         @flow.states.create!(statable: @statable)
-        render json: @statable
+        render json: @statable.state
       else
         render json: { error: @statable.errors }, status: 422
       end

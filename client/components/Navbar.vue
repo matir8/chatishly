@@ -4,7 +4,11 @@
       fixed
       height="44"
       app>
-      <v-toolbar-title>Chatishly</v-toolbar-title>
+      <v-toolbar-title>
+        <nuxt-link to="/">
+          Chatishly
+        </nuxt-link>
+      </v-toolbar-title>
       <v-spacer />
       <div v-if="!$auth.loggedIn">
         <v-btn

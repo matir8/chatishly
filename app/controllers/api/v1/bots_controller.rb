@@ -27,6 +27,10 @@ module Api::V1
     end
 
     def update
+      if params[:default_flow_id]
+        @bot.update(default_flow_id: bot_params[:default_flow_id])
+      end
+
       @bot.update(
         name: bot_params[:name],
         page_id: bot_params[:page_id]
@@ -56,8 +60,7 @@ module Api::V1
     end
 
     def configure_persistent_menu
-      @bot.configure_persistent_menu(bot_params[:menu])
-      render status: 200
+      render json: @bot.configure_persistent_menu(bot_params[:menu])
     end
 
     def bot_sessions
@@ -71,7 +74,12 @@ module Api::V1
     private
 
     def bot_params
-      params.permit(:name, :id, :bot_id, :page_id, :menu, :sender_id)
+      params.permit(:name, :id, :bot_id, :page_id, :sender_id, :default_flow_id,
+                    menu: [
+                      :locale,
+                      :composer_input_disabled,
+                      call_to_actions: %i[title type payload]
+                    ])
     end
 
     def set_bot

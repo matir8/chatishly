@@ -17,6 +17,8 @@ Rails.application.routes.draw do
             put 'subscribe'
             put 'configure_persistent_menu'
 
+            delete 'delete_persistent_menu'
+
             resources :flows do
               resources :states do
                 resources :quick_replies

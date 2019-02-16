@@ -44,6 +44,7 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
+          <delete-confirmation @agree="unsetMenu"/>
           <v-spacer/>
           <v-btn 
             color="red darken-1" 
@@ -60,7 +61,12 @@
 </template>
 
 <script>
+import DeleteConfirmation from '@/components/DeleteConfirmation.vue'
+
 export default {
+  components: {
+    DeleteConfirmation
+  },
   props: {
     bot: {
       type: Object,
@@ -101,6 +107,14 @@ export default {
         })
         .then(res => {
           this.$toast.success('Persistent menu configured.', { icon: 'done' })
+          this.dialog = false
+        })
+    },
+    unsetMenu() {
+      this.$axios
+        .delete(`/v1/user/bots/${this.bot.id}/delete_persistent_menu`)
+        .then(res => {
+          this.$toast.success('Persistent menu deleted.', { icon: 'done' })
           this.dialog = false
         })
     }

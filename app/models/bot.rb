@@ -52,6 +52,11 @@ class Bot < ApplicationRecord
            }, access_token: access_token)
   end
 
+  def delete_persistent_menu
+    Facebook::Messenger::Profile
+      .unset({ fields: [:persistent_menu] }, access_token: access_token)
+  end
+
   def start_conversation(reply)
     default_flow_set?
 
@@ -91,9 +96,7 @@ class Bot < ApplicationRecord
       state = @state_arr.first
       flow = state.flow
 
-      session.update(
-        current_state_id: state.id
-      )
+      session.update(current_state_id: state.id)
     else
       session.update(current_state_id: flow.states.first.id)
     end

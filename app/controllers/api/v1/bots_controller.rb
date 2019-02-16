@@ -63,6 +63,10 @@ module Api::V1
       render json: @bot.configure_persistent_menu(bot_params[:menu])
     end
 
+    def delete_persistent_menu
+      render json: @bot.delete_persistent_menu
+    end
+
     def bot_sessions
       render json: BotSession.includes(:bot).where(bots: { id: @bot.id })
     end

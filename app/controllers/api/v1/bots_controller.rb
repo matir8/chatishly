@@ -71,6 +71,18 @@ module Api::V1
       render json: BotSession.includes(:bot).where(bots: { id: @bot.id })
     end
 
+    def broadcast
+      broadcasts = bot_session_params[:broadcasts]
+
+      broadcasts.each do |curr_broadcast|
+        flow = @bot.flows.find(curr_broadcast[:flow_id])
+        session = BotSession.find(curr_broadcast[:session_id])
+
+        session.update(current_state_id: flow.states.first.id)
+        flow.start(session)
+      end
+    end
+
     def recipient_info
       render json: @bot.recipient_info(bot_params[:sender_id])
     end
@@ -84,6 +96,10 @@ module Api::V1
                       :composer_input_disabled,
                       call_to_actions: %i[title type payload]
                     ])
+    end
+
+    def bot_session_params
+      params.permit(:id, :bot_id, broadcasts: %i[flow_id session_id])
     end
 
     def set_bot

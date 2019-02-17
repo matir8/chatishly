@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
             put 'subscribe'
             put 'configure_persistent_menu'
+            put 'broadcast'
 
             delete 'delete_persistent_menu'
 

@@ -11,7 +11,7 @@
       </v-toolbar-title>
       <v-spacer />
       <div v-if="!$auth.loggedIn">
-        <v-btn
+        <!-- <v-btn
           flat
           nuxt
           to="/auth/login"
@@ -20,7 +20,13 @@
           flat
           nuxt
           to="/auth/register"
-        >Register</v-btn>
+        >Register</v-btn> -->
+        <v-btn 
+          :href="$axios.defaults.baseURL + '/auth/facebook'" 
+          flat
+        >
+          Sign-in
+        </v-btn>
       </div>
       <div v-else>
         <v-btn

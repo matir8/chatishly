@@ -125,6 +125,13 @@ export default {
       let botId = this.$route.params.botId
       let flowId = this.$route.params.flowId
 
+      if (this.formData.statable_type == '' || this.formData.name == '') {
+        this.$toast.error('Please fill the required fields.', {
+          icon: 'error_outline'
+        })
+        return
+      }
+
       this.$axios
         .post(`v1/user/bots/${botId}/flows/${flowId}/states`, this.formData)
         .then(res => {
@@ -133,7 +140,7 @@ export default {
           this.$emit('updateStates', res.data.data)
         })
         .catch(err => {
-          this.$toast.error('A bot for the selected page already exists', {
+          this.$toast.error('Error', {
             icon: 'error_outline'
           })
         })

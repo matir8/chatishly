@@ -5,23 +5,29 @@
       <v-timeline-item 
         v-for="state in states" 
         :key="state.id"
-        :color="stateColor(state.attributes['statable-type'])"
+        :color="stateColor(type(state))"
       >
         <v-card>
-          <v-card-title :class="`title ${state.attributes['statable-type']}`">
+          <v-card-title :class="`title ${type(state)}`">
             {{ state.attributes['statable']['name'] }}
             <v-spacer />
             <delete-confirmation @agree="deleteState(state.id)" />
           </v-card-title>
           <v-card-text>
-            <quick-reply-form :state="state"/>
+            <state :state="state" />
+          </v-card-text>
+          <v-card-actions class="justify-center">
+            <quick-reply-form 
+              :state="state" 
+              class="mr-2"/>
             <quick-reply-form 
               v-for="reply in state.attributes['quick-replies']" 
               :key="reply.id"
               :reply="reply"
               :state="state"
+              class="mr-2"
             />
-          </v-card-text>
+          </v-card-actions>
         </v-card>
       </v-timeline-item>
     </v-timeline>
@@ -30,12 +36,14 @@
 </template>
 
 <script>
+import State from '@/components/States/State.vue'
 import StateForm from '@/components/States/StateForm.vue'
 import DeleteConfirmation from '@/components/DeleteConfirmation.vue'
 import QuickReplyForm from '@/components/QuickReplyForm.vue'
 
 export default {
   components: {
+    State,
     StateForm,
     DeleteConfirmation,
     QuickReplyForm
@@ -48,7 +56,7 @@ export default {
       states: []
     }
   },
-  created() {
+  beforeMount() {
     this.$axios
       .get(`/v1/user/bots/${this.botId}/flows/${this.flowId}/states`)
       .then(res => {
@@ -69,11 +77,14 @@ export default {
         .delete(`/v1/user/bots/${this.botId}/flows/${this.flowId}/states/${id}`)
         .then(res => {
           this.states = this.states.filter(state => state.id != id)
-          this.$toast.success('Bot deleted.', { icon: 'done' })
+          this.$toast.success('State deleted.', { icon: 'done' })
         })
     },
     updateStates(state) {
       this.states.push(state)
+    },
+    type(state) {
+      return state.attributes['statable-type']
     },
     stateColor(statableType) {
       switch (statableType) {

@@ -94,7 +94,7 @@ export default {
       states: [],
       formData: {
         name: '',
-        menuTitle: null
+        menuTitle: ''
       }
     }
   },
@@ -108,7 +108,7 @@ export default {
     submit() {
       let reqPromise
 
-      if (this.formData.name == '' || this.formData.menuTitle == null) {
+      if (this.formData.name == '' || this.formData.menuTitle == '') {
         this.$toast.error('Please fill in all fields.', {
           icon: 'error_outline'
         })

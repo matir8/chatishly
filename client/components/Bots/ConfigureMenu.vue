@@ -95,6 +95,13 @@ export default {
       })
     },
     configure() {
+      if (this.menu.length == 0) {
+        this.$toast.error('Please fill the required fields.', {
+          icon: 'error_outline'
+        })
+        return
+      }
+
       this.$axios
         .put(`/v1/user/bots/${this.bot.id}/configure_persistent_menu`, {
           menu: [

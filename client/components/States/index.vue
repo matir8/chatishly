@@ -23,7 +23,7 @@
             <quick-reply-form 
               v-for="reply in state.attributes['quick-replies']" 
               :key="reply.id"
-              :reply="reply"
+              :reply-prop="reply"
               :state="state"
               class="mr-2"
             />

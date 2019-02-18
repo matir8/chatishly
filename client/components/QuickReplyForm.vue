@@ -40,8 +40,7 @@
             Delete
           </v-btn>
           <v-layout wrap>
-            <v-flex 
-              xs12>
+            <v-flex xs12>
               <v-text-field 
                 v-validate="'required|max:64'"
                 v-model="formData.title"
@@ -87,7 +86,7 @@
 <script>
 export default {
   props: {
-    reply: {
+    replyProp: {
       type: Object,
       default: null
     },
@@ -109,7 +108,8 @@ export default {
         title: '',
         payload: '',
         image_url: ''
-      }
+      },
+      reply: this.replyProp
     }
   },
   methods: {
@@ -150,17 +150,19 @@ export default {
       }
       requestPromise
         .then(res => {
+          let newReply = res.data.data.attributes
+          newReply.id = res.data.data.id
+
           this.dialog = false
           this.$toast.success('Operation successful', { icon: 'done' })
-
           if (this.reply) {
             let i = this.state.attributes['quick-replies'].findIndex(x => {
-              x.id == this.reply.id
+              return x.id == this.reply.id
             })
 
-            this.state.attributes['quick-replies'][i] = res.data.data
+            this.reply = newReply
           } else {
-            this.state.attributes['quick-replies'].push(res.data.data)
+            this.state.attributes['quick-replies'].push(newReply)
           }
 
           this.loadData()
@@ -181,7 +183,7 @@ export default {
         .then(res => {
           this.dialog = false
           let replies = this.state.attributes['quick-replies'].filter(x => {
-            x.id != reply.id
+            return x.id != reply.id
           })
           this.state.attributes['quick-replies'] = replies
           this.$toast.success('Deleted', { icon: 'done' })

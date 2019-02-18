@@ -29,16 +29,8 @@
           Create Quick Reply
         </span>
       </v-card-title>
-      <v-card-text>
+      <v-card-text class="justify-center">
         <v-container grid-list-md>
-          <v-btn
-            v-if="reply" 
-            color="primary"
-            dark
-            @click="deleteReply(reply)"
-          >
-            Delete
-          </v-btn>
           <v-layout wrap>
             <v-flex xs12>
               <v-text-field 
@@ -53,6 +45,7 @@
                 :items="payloads"
                 v-model="formData.payload"
                 :item-text="x => `${x.type} ${x.name}`"
+                :error-messages="errors.collect('payload')"
                 item-value="payload"
                 label="Next Flow or State"
                 data-vv-name="payload"
@@ -69,6 +62,9 @@
         </v-container>
       </v-card-text>
       <v-card-actions>
+        <delete-confirmation 
+          v-if="reply" 
+          @agree="deleteReply(reply)" />
         <v-spacer/>
         <v-btn 
           color="red darken-1" 
@@ -84,7 +80,12 @@
 </template>
 
 <script>
+import DeleteConfirmation from '@/components/DeleteConfirmation.vue'
+
 export default {
+  components: {
+    DeleteConfirmation
+  },
   props: {
     replyProp: {
       type: Object,
@@ -132,6 +133,13 @@ export default {
     },
     submit() {
       let requestPromise
+
+      if (this.formData.title == '' || this.formData.payload == '') {
+        this.$toast.error('Please fill the required fields.', {
+          icon: 'error_outline'
+        })
+        return
+      }
 
       if (this.reply) {
         requestPromise = this.$axios.put(

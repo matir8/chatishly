@@ -119,7 +119,7 @@ export default {
           this.flows = res.data.data.map(flow => {
             let result = {}
 
-            result.title = flow.attributes['menu-action-title']
+            result.title = flow.attributes.name
             result.type = 'postback'
             result.payload = flow.attributes['trigger-payload']['payload']
             result.id = flow.id

@@ -34,7 +34,7 @@
                   Flow:
                   <nuxt-link 
                     :to="`/bots/${bot.id}/flows/${session.attributes['progress']['flow']['id']}`" 
-                    class="blue-grey--text">
+                    class="blue--text">
                     {{ session.attributes['progress']['flow']['name'] }}
                   </nuxt-link>
                 </div>

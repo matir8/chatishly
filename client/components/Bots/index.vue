@@ -13,6 +13,7 @@
         Connceted to 
         <a 
           :href="`https://facebook.com/${bot.attributes.page.id}`" 
+          target="_blank"
           class="blue--text">
           {{ bot.attributes.page.name }}
         </a>
@@ -22,7 +23,7 @@
         <nuxt-link 
           v-if="bot.attributes['default-flow']"
           :to="`/bots/${this.$route.params.botId}/flows/${bot.attributes['default-flow'].id}`" 
-          class="blue-grey--text">
+          class="blue--text">
           {{ bot.attributes['default-flow'].name }}
         </nuxt-link>
         <span 

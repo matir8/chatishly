@@ -77,7 +77,7 @@ module.exports = {
       }
     },
     redirect: {
-      login: '/auth/login',
+      login: '/',
       logout: '/',
       user: '/v1/user/current',
       callback: '/'

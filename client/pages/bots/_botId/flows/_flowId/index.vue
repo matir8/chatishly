@@ -14,6 +14,9 @@
               <v-card-title class="justify-center">
                 <span class="headline">Flow {{ flow.attributes.name }}</span>
               </v-card-title>
+              <v-card-text>
+                <span>Menu Title:</span> {{ flow.attributes['menu-action-title'] }}
+              </v-card-text>
               <v-card-actions class="justify-center">
                 <flow-form :flow="flow"/>
                 <delete-confirmation @agree="deleteFlow"/>

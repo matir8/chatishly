@@ -12,6 +12,7 @@ export default {
       AuthService.setCredentials(this.$route.query)
       this.$axios.get('/v1/user/current').then(res => {
         this.$auth.setUser(res.data.data)
+        this.$router.push('/bots')
       })
     }
     this.$router.push('/')

@@ -56,7 +56,7 @@ export default {
       states: []
     }
   },
-  beforeMount() {
+  created() {
     this.$axios
       .get(`/v1/user/bots/${this.botId}/flows/${this.flowId}/states`)
       .then(res => {

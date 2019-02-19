@@ -15,6 +15,7 @@
         bottom
         right
         dark
+        @click="loadFacebookPages"
       >
         <span class="headline">+</span>
       </v-btn>

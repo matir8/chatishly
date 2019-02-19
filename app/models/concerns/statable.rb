@@ -17,38 +17,13 @@ module Statable
     end
 
     def trigger_payload
-      "TRIGGER_STATE_#{id}_PAYLOAD"
+      "TRIGGER_STATE_#{state.id}_PAYLOAD"
     end
 
     def quick_replies
       state.quick_replies.map do |reply|
         reply.attributes.slice('content_type', 'title', 'payload', 'image_url')
       end
-    end
-
-    private
-
-    def demo_message(message)
-      {
-        text: message,
-        quick_replies: [
-          {
-            content_type: 'text',
-            title: 'Hello',
-            payload: 'TRIGGER_STATE_2_PAYLOAD'
-          },
-          {
-            content_type: 'text',
-            title: 'How are you?',
-            payload: 'TRIGGER_STATE_1_PAYLOAD'
-          },
-          {
-            content_type: 'text',
-            title: 'Queen',
-            payload: 'TRIGGER_STATE_5_PAYLOAD'
-          }
-        ]
-      }
     end
   end
 end

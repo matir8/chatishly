@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :bots
-  has_many :pages
+  has_many :bots, dependent: :destroy
+  has_many :pages, dependent: :destroy
 
   def facebook_pages
     @graph = Koala::Facebook::API.new(self['social_access_tokens']['facebook'])

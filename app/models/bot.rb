@@ -5,7 +5,7 @@ class Bot < ApplicationRecord
   include Facebook::Messenger
 
   belongs_to :user
-  has_many :flows
+  has_many :flows, dependent: :destroy
   belongs_to :default_flow, class_name: 'Flow', foreign_key: 'default_flow_id', optional: true
 
   validates :verify_token, presence: true

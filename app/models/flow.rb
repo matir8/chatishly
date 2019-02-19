@@ -1,6 +1,6 @@
 class Flow < ApplicationRecord
   belongs_to :bot
-  has_many :states
+  has_many :states, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 

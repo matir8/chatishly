@@ -16,7 +16,6 @@ module Api::V1
         name: bot_params[:name],
         user_id: current_user.id,
         page_id: @page.id,
-        access_token: @page.access_token,
         verify_token: ENV['facebook_verify_token']
       )
 

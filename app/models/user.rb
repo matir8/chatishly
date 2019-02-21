@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :bots, dependent: :destroy
   has_many :pages, dependent: :destroy
 
+  after_create :facebook_pages
+
   def facebook_pages
     @graph = Koala::Facebook::API.new(self['social_access_tokens']['facebook'])
     @new_pages = @graph.get_connections('me', 'accounts')

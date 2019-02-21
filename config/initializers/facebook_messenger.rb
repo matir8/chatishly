@@ -28,7 +28,7 @@ class BotProvider < Facebook::Messenger::Configuration::Providers::Base
   #
   # Returns a String describing an access token.
   def access_token_for(recipient)
-    bot.find_by(page_id: recipient['id']).access_token
+    Page.find_by(facebook_id: recipient['id']).access_token
   end
 
   private
@@ -53,7 +53,6 @@ Facebook::Messenger::Bot.on :message do |message|
 end
 
 def init(reply)
-  Chatishly::Application::Bot
-    .find_by(page_id: reply.recipient['id'])
-    .start_conversation(reply)
+  bot = Page.find_by(facebook_id: reply.recipient['id']).bot
+  bot.start_conversation(reply)
 end

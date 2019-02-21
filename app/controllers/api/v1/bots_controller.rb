@@ -1,6 +1,7 @@
 module Api::V1
   class BotsController < ApiController
     before_action :set_bot, except: %i[index create]
+    before_action :set_page, only: %i[create update]
 
     def index
       render json: current_user.bots
@@ -14,12 +15,13 @@ module Api::V1
       @bot = Bot.new(
         name: bot_params[:name],
         user_id: current_user.id,
-        page_id: bot_params[:page_id],
-        access_token: access_token,
+        page_id: @page.id,
+        access_token: @page.access_token,
         verify_token: ENV['facebook_verify_token']
       )
 
       if @bot.save
+        @page.update_attributes(bot_id: @bot.id)
         render json: @bot
       else
         render json: { error: @bot.errors }, status: 422
@@ -33,10 +35,11 @@ module Api::V1
 
       @bot.update(
         name: bot_params[:name],
-        page_id: bot_params[:page_id]
+        page_id: @page.id
       )
 
       if @bot.save
+        @page.update_attributes(bot_id: @bot.id)
         render json: @bot
       else
         render json: { error: @bot.errors }, status: 422
@@ -107,14 +110,8 @@ module Api::V1
       @bot = current_user.bots.find(id)
     end
 
-    def access_token
-      # Important: If we use the facebook_pages method here to get the pages,
-      #            their access_tokens will update.
-
-      result = User.find(current_user.id).pages.select do |page|
-        page.facebook_id == bot_params[:page_id]
-      end
-      result.first.access_token
+    def set_page
+      @page = Page.find_by(facebook_id: bot_params[:page_id])
     end
   end
 end

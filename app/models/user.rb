@@ -1,11 +1,11 @@
 # frozen_string_literal: true
+
 require 'koala'
 
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+  devise :database_authenticatable, :registerable, :trackable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
   has_many :bots, dependent: :destroy
@@ -26,6 +26,8 @@ class User < ActiveRecord::Base
         Page.update(page_params(new_page))
       end
     end
+
+    pages
   end
 
   private

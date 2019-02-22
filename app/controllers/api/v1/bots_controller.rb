@@ -110,7 +110,7 @@ module Api::V1
     end
 
     def set_page
-      @page = Page.find_by(facebook_id: bot_params[:page_id])
+      @page = Page.find(bot_params[:page_id])
     end
   end
 end

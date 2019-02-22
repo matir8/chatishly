@@ -16,11 +16,6 @@ module Overrides
       set_token_on_resource
       create_auth_params
 
-      if confirmable_enabled?
-        # don't send confirmation email!!!
-        @resource.skip_confirmation!
-      end
-
       sign_in(:user, @resource, store: false, bypass: false)
 
       provider = auth_hash.provider

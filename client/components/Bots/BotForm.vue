@@ -58,13 +58,14 @@
                 v-validate="'required'"
                 :items="pages"
                 v-model="formData.pageId"
-                item-text="name"
+                item-text="attributes.name"
                 item-value="id"
                 label="Page"
                 data-vv-name="page"
               />
             </v-flex>
             <v-flex 
+              v-if="bot"
               xs12>
               <v-select
                 v-validate="'required'"
@@ -117,13 +118,13 @@ export default {
   created() {
     if (this.bot) {
       this.formData.name = this.bot.attributes['name']
-      this.formData.pageId = this.bot.attributes['page-id']
+      this.formData.pageId = this.bot.attributes.page.id.toString()
 
       if (this.bot.attributes['default-flow']) {
         this.formData.default_flow_id = this.bot.attributes['default-flow'].id
       }
 
-      this.$axios.get(`v1/user/bots/${this.bot.id}/flows`).then(res => {
+      this.$axios.get(`v1/bots/${this.bot.id}/flows`).then(res => {
         this.flows = res.data.data
       })
     }
@@ -131,7 +132,7 @@ export default {
   methods: {
     loadFacebookPages() {
       this.$axios.get('v1/user/facebook_pages').then(res => {
-        this.pages = res.data
+        this.pages = res.data.data
       })
     },
     submit() {
@@ -145,13 +146,13 @@ export default {
       }
 
       if (this.bot) {
-        reqPromise = this.$axios.put(`v1/user/bots/${this.bot.id}`, {
+        reqPromise = this.$axios.put(`v1/bots/${this.bot.id}`, {
           name: this.formData.name,
           page_id: this.formData.pageId,
           default_flow_id: this.formData.default_flow_id
         })
       } else {
-        reqPromise = this.$axios.post('v1/user/bots', {
+        reqPromise = this.$axios.post('v1/bots', {
           name: this.formData.name,
           page_id: this.formData.pageId
         })

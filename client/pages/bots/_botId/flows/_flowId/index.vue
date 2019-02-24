@@ -51,16 +51,14 @@ export default {
     }
   },
   created() {
-    this.$axios
-      .get(`/v1/user/bots/${this.botId}/flows/${this.flowId}`)
-      .then(res => {
-        this.flow = res.data.data
-      })
+    this.$axios.get(`/v1/bots/${this.botId}/flows/${this.flowId}`).then(res => {
+      this.flow = res.data.data
+    })
   },
   methods: {
     deleteFlow() {
       this.$axios
-        .delete(`/v1/user/bots/${this.botId}/flows/${this.flowId}`)
+        .delete(`/v1/bots/${this.botId}/flows/${this.flowId}`)
         .then(res => {
           this.$toast.success('Flow deleted.', { icon: 'done' })
           this.$router.push(`/bots/${this.botId}/flows`)

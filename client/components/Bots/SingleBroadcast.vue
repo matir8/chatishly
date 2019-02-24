@@ -67,7 +67,7 @@ export default {
   methods: {
     loadData() {
       this.$axios
-        .get(`/v1/user/bots/${this.$route.params.botId}/flows`)
+        .get(`/v1/bots/${this.$route.params.botId}/flows`)
         .then(res => {
           this.flows = res.data.data.map(flow => {
             let result = {}
@@ -90,7 +90,7 @@ export default {
       }
 
       this.$axios
-        .put(`/v1/user/bots/${this.$route.params.botId}/broadcast`, {
+        .put(`/v1/bots/${this.$route.params.botId}/broadcast`, {
           broadcasts: [
             {
               flow_id: this.selectedFlow.id,

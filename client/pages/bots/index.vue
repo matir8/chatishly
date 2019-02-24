@@ -34,7 +34,7 @@ export default {
     }
   },
   created() {
-    this.$axios.get('/v1/user/bots').then(res => {
+    this.$axios.get('/v1/bots').then(res => {
       this.bots = res.data.data
     })
   },

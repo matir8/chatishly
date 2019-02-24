@@ -76,7 +76,7 @@ export default {
   },
   beforeCreate() {
     this.$axios
-      .get(`/v1/user/bots/${this.$route.params.botId}/bot_sessions`)
+      .get(`/v1/bots/${this.$route.params.botId}/bot_sessions`)
       .then(res => {
         this.sessions = res.data.data
       })

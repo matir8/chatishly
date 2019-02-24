@@ -58,14 +58,14 @@ export default {
   },
   created() {
     this.$axios
-      .get(`/v1/user/bots/${this.botId}/flows/${this.flowId}/states`)
+      .get(`/v1/bots/${this.botId}/flows/${this.flowId}/states`)
       .then(res => {
         this.states = res.data.data
       })
 
     if (!this.flow) {
       this.$axios
-        .get(`/v1/user/bots/${this.botId}/flows/${this.flowId}`)
+        .get(`/v1/bots/${this.botId}/flows/${this.flowId}`)
         .then(res => {
           this.flow = res.data.data
         })
@@ -74,7 +74,7 @@ export default {
   methods: {
     deleteState(id) {
       this.$axios
-        .delete(`/v1/user/bots/${this.botId}/flows/${this.flowId}/states/${id}`)
+        .delete(`/v1/bots/${this.botId}/flows/${this.flowId}/states/${id}`)
         .then(res => {
           this.states = this.states.filter(state => state.id != id)
           this.$toast.success('State deleted.', { icon: 'done' })

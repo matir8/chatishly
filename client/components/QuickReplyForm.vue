@@ -120,12 +120,12 @@ export default {
         this.formData.payload = this.reply.payload
         this.formData.image_url = this.reply.image_url
       }
-      this.$axios.get(`v1/user/bots/${this.botId}`).then(res => {
+      this.$axios.get(`v1/bots/${this.botId}`).then(res => {
         this.flows = res.data.data.attributes['list-flows-triggers']
       })
 
       this.$axios
-        .get(`v1/user/bots/${this.botId}/flows/${this.flowId}`)
+        .get(`v1/bots/${this.botId}/flows/${this.flowId}`)
         .then(res => {
           this.states = res.data.data.attributes['list-states-triggers']
           this.payloads = this.flows.concat(this.states)
@@ -143,14 +143,14 @@ export default {
 
       if (this.reply) {
         requestPromise = this.$axios.put(
-          `v1/user/bots/${this.botId}/flows/${this.flowId}/states/${
+          `v1/bots/${this.botId}/flows/${this.flowId}/states/${
             this.state.id
           }/quick_replies/${this.reply.id}`,
           this.formData
         )
       } else {
         requestPromise = this.$axios.post(
-          `v1/user/bots/${this.botId}/flows/${this.flowId}/states/${
+          `v1/bots/${this.botId}/flows/${this.flowId}/states/${
             this.state.id
           }/quick_replies`,
           this.formData
@@ -184,7 +184,7 @@ export default {
     deleteReply(reply) {
       this.$axios
         .delete(
-          `v1/user/bots/${this.botId}/flows/${this.flowId}/states/${
+          `v1/bots/${this.botId}/flows/${this.flowId}/states/${
             this.state.id
           }/quick_replies/${reply.id}`
         )

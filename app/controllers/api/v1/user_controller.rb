@@ -1,14 +1,6 @@
 module Api::V1
-  class UsersController < ApiController
+  class UserController < ApiController
     before_action :authenticate_user!
-
-    def index
-      render json: User.all
-    end
-
-    def show
-      render json: User.find(params[:id])
-    end
 
     def current
       render json: current_user
@@ -21,15 +13,7 @@ module Api::V1
           status: 400
         }
       else
-        render json: serialized_pages
-      end
-    end
-
-    private
-
-    def serialized_pages
-      current_user.facebook_pages.map do |page|
-        page.slice('name', 'id')
+        render json: current_user.facebook_pages
       end
     end
   end

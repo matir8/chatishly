@@ -33,14 +33,6 @@ module Api::V1
       render json: @flow.destroy
     end
 
-    def trigger_payload
-      render json: { trigger_payload: @flow.trigger_payload }
-    end
-
-    def list_states_triggers
-      render json: { states_triggers: @flow.list_states_triggers }
-    end
-
     private
 
     def set_bot

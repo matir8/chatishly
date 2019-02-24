@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     loadFlows() {
-      this.$axios.get(`/v1/user/bots/${this.bot.id}/flows`).then(res => {
+      this.$axios.get(`/v1/bots/${this.bot.id}/flows`).then(res => {
         this.flows = res.data.data.map(flow => {
           let result = {}
 
@@ -103,7 +103,7 @@ export default {
       }
 
       this.$axios
-        .put(`/v1/user/bots/${this.bot.id}/configure_persistent_menu`, {
+        .put(`/v1/bots/${this.bot.id}/configure_persistent_menu`, {
           menu: [
             {
               locale: 'default',
@@ -119,7 +119,7 @@ export default {
     },
     unsetMenu() {
       this.$axios
-        .delete(`/v1/user/bots/${this.bot.id}/delete_persistent_menu`)
+        .delete(`/v1/bots/${this.bot.id}/delete_persistent_menu`)
         .then(res => {
           this.$toast.success('Persistent menu deleted.', { icon: 'done' })
           this.dialog = false

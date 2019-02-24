@@ -70,11 +70,9 @@ export default {
     }
   },
   created() {
-    this.$axios
-      .get(`/v1/user/bots/${this.$route.params.botId}/flows`)
-      .then(res => {
-        this.flows = res.data.data
-      })
+    this.$axios.get(`/v1/bots/${this.$route.params.botId}/flows`).then(res => {
+      this.flows = res.data.data
+    })
   }
 }
 </script>

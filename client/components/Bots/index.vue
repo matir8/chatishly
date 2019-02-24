@@ -80,12 +80,10 @@ export default {
       return this.$route.params.botId
     },
     deleteBot() {
-      this.$axios
-        .delete(`/v1/user/bots/${this.$route.params.botId}`)
-        .then(res => {
-          this.$toast.success('Bot deleted.', { icon: 'done' })
-          this.$router.push('/bots')
-        })
+      this.$axios.delete(`/v1/bots/${this.$route.params.botId}`).then(res => {
+        this.$toast.success('Bot deleted.', { icon: 'done' })
+        this.$router.push('/bots')
+      })
     },
     updateBots(bot) {
       this.bot = bot

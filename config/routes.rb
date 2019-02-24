@@ -5,33 +5,29 @@ Rails.application.routes.draw do
 
   scope module: 'api' do
     namespace :v1 do
-      resources :users, only: %i[index show], path: 'user' do
-        collection do
-          get 'current'
-          get 'facebook_pages'
+      get 'user/current', controller: 'users'
+      get 'user/facebook_pages', controller: 'users'
 
-          resources :bots do
-            get 'bot_sessions'
-            get 'recipient_info'
+      resources :bots do
+        get 'bot_sessions'
+        get 'recipient_info'
 
-            put 'subscribe'
-            put 'configure_persistent_menu'
-            put 'broadcast'
+        put 'subscribe'
+        put 'configure_persistent_menu'
+        put 'broadcast'
 
-            delete 'delete_persistent_menu'
+        delete 'delete_persistent_menu'
 
-            resources :flows do
-              resources :states do
-                resources :quick_replies
-              end
-            end
+        resources :flows do
+          resources :states do
+            resources :quick_replies
           end
         end
       end
     end
   end
 
-  mount Facebook::Messenger::Server, at: 'bot'
+  mount Facebook::Messenger::Server, at: 'webhook'
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'

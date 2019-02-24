@@ -133,7 +133,7 @@ export default {
       }
 
       this.$axios
-        .post(`v1/user/bots/${botId}/flows/${flowId}/states`, this.formData)
+        .post(`v1/bots/${botId}/flows/${flowId}/states`, this.formData)
         .then(res => {
           this.dialog = false
           this.$toast.success('Operation successful', { icon: 'done' })

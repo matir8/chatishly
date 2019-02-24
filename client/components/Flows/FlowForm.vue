@@ -117,7 +117,7 @@ export default {
 
       if (this.flow) {
         reqPromise = this.$axios.put(
-          `v1/user/bots/${this.$route.params.botId}/flows/${this.flow.id}`,
+          `v1/bots/${this.$route.params.botId}/flows/${this.flow.id}`,
           {
             name: this.formData.name,
             menu_action_title: this.formData.menuTitle
@@ -125,7 +125,7 @@ export default {
         )
       } else {
         reqPromise = this.$axios.post(
-          `v1/user/bots/${this.$route.params.botId}/flows`,
+          `v1/bots/${this.$route.params.botId}/flows`,
           {
             name: this.formData.name,
             menu_action_title: this.formData.menuTitle

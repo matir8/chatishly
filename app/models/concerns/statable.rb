@@ -13,7 +13,7 @@ module Statable
                    recipient: { id: session.sender_id },
                    message: message,
                    message_type: Facebook::Messenger::Bot::MessagingType::UPDATE
-                 }, access_token: session.flow.bot.access_token)
+                 }, access_token: session.flow.bot.page.access_token)
     end
 
     def trigger_payload

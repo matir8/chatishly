@@ -53,14 +53,6 @@ module Api::V1
       render json: @bot.subscribe_bot
     end
 
-    def default_flow
-      render json: @bot.default_flow
-    end
-
-    def list_flows_triggers
-      render json: { flow_triggers: @bot.list_flows_triggers }
-    end
-
     def configure_persistent_menu
       render json: @bot.configure_persistent_menu(bot_params[:menu])
     end

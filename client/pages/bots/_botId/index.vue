@@ -47,7 +47,7 @@ export default {
     }
   },
   beforeCreate() {
-    this.$axios.get(`/v1/user/bots/${this.$route.params.botId}`).then(res => {
+    this.$axios.get(`/v1/bots/${this.$route.params.botId}`).then(res => {
       this.bot = res.data.data
     })
   }

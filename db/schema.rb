@@ -10,31 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190131091930) do
+ActiveRecord::Schema.define(version: 20190221110357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bots", force: :cascade do |t|
-    t.string "verify_token"
-    t.string "access_token"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "page_id"
-    t.string "name"
-    t.bigint "default_flow_id"
-    t.index ["user_id"], name: "index_bots_on_user_id"
-  end
-
-  create_table "flow_sessions", force: :cascade do |t|
+  create_table "bot_sessions", force: :cascade do |t|
     t.string "sender_id"
-    t.bigint "flow_id"
     t.bigint "current_state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["current_state_id"], name: "index_flow_sessions_on_current_state_id"
-    t.index ["flow_id"], name: "index_flow_sessions_on_flow_id"
+    t.string "sender_name"
+    t.string "sender_profile_pic"
+    t.index ["current_state_id"], name: "index_bot_sessions_on_current_state_id"
+  end
+
+  create_table "bots", force: :cascade do |t|
+    t.string "verify_token"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "page_id"
+    t.string "name"
+    t.bigint "default_flow_id"
+    t.index ["user_id"], name: "index_bots_on_user_id"
   end
 
   create_table "flows", force: :cascade do |t|
@@ -44,6 +43,20 @@ ActiveRecord::Schema.define(version: 20190131091930) do
     t.string "name"
     t.string "menu_action_title"
     t.index ["bot_id"], name: "index_flows_on_bot_id"
+  end
+
+  create_table "image_states", force: :cascade do |t|
+    t.string "url"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "open_graph_states", force: :cascade do |t|
+    t.string "url"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pages", force: :cascade do |t|
@@ -56,6 +69,8 @@ ActiveRecord::Schema.define(version: 20190131091930) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "bot_id"
+    t.index ["bot_id"], name: "index_pages_on_bot_id"
     t.index ["user_id"], name: "index_pages_on_user_id"
   end
 
@@ -127,9 +142,8 @@ ActiveRecord::Schema.define(version: 20190131091930) do
 
   add_foreign_key "bots", "flows", column: "default_flow_id"
   add_foreign_key "bots", "users"
-  add_foreign_key "flow_sessions", "flows"
-  add_foreign_key "flow_sessions", "states", column: "current_state_id"
   add_foreign_key "flows", "bots"
+  add_foreign_key "pages", "bots"
   add_foreign_key "quick_replies", "states"
   add_foreign_key "states", "flows"
 end
